@@ -9,12 +9,7 @@ class Diffrence {
 	}
 
 	private  function getUnixDiffrence($now, $then) {
-		if (get_class($now) === "DateTime") {
-			$now = $now->getTimeStamp();
-		}
-		if (get_class($then) === "DateTime") {
-			$then = $then->getTimeStamp();
-		}
+		list($now, $then) = array(strtotime($now), strtotime($then));
 		return $now > $then ? ($now - $then) : ($then - $now);
 	}
 
