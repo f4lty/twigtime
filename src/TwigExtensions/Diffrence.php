@@ -32,6 +32,6 @@ class Diffrence {
 		if ($this->minutes > 0) $timestring = sprintf("%s minutes %s seconds", $this->minutes, $this->seconds);
 		if ($this->hours > 0) $timestring = sprintf("%s hours %s minutes", $this->hours, $this->minutes);
 		if ($this->days > 0) $timestring = sprintf("%s days %s hours", $this->days, $this->hours);
-		return $timestring . " ago"; 
+		return $timestring;
 	}
 }
