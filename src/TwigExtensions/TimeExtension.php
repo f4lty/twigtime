@@ -2,12 +2,28 @@
 namespace TwigExtensions;
 use Twig_Extension;
 use Twig_SimpleFunction;
+use Twig_SimpleFilter;
+
+define("SECOND", 1);
+define("MINUTE", 60 * SECOND);
+define("HOUR", 60 * MINUTE);
+define("DAY", 24 * HOUR);
+define("MONTH", 30 * DAY);
 
 class TimeExtension extends Twig_Extension {
 
     public function getName()
     {
         return 'timely';
+    }
+
+    public function getFilters() 
+    {
+        return array(
+            new Twig_SimpleFilter('currency', array($this, 'currency'), array('is_safe' => array('html'))),
+            new Twig_SimpleFilter('currency_with_sign', array($this, 'currencyWithSign'), array('is_safe' => array('html')))
+        );
+        
     }
 
     public function getFunctions()
@@ -22,6 +38,23 @@ class TimeExtension extends Twig_Extension {
         );
     }
 
+    /*
+     |
+     | FILTERS
+     |
+     */
+    function currency($value, $iso=null) {
+        return Currency::format($value, $iso);
+    }
+    function currencyWithSign($value, $iso=null) {
+        return Currency::formatWithSign($value, $iso);
+    }
+
+    /*
+     |
+     | FUNCTIONS
+     |
+     */
     function diffrence_years($now, $then) {
     	$diff = new Diffrence($now, $then);
     	return $diff->years;
@@ -51,5 +84,4 @@ class TimeExtension extends Twig_Extension {
     	$diff = new Diffrence($now, $then);
     	return $diff->niceTime();
     }   
-
 }
