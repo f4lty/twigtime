@@ -23,7 +23,6 @@ class TimeExtension extends Twig_Extension {
             new Twig_SimpleFilter('currency', array($this, 'currency'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('currency_with_sign', array($this, 'currencyWithSign'), array('is_safe' => array('html')))
         );
-        
     }
 
     public function getFunctions()
