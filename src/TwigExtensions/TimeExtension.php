@@ -21,7 +21,8 @@ class TimeExtension extends Twig_Extension {
     {
         return array(
             new Twig_SimpleFilter('currency', array($this, 'currency'), array('is_safe' => array('html'))),
-            new Twig_SimpleFilter('currency_with_sign', array($this, 'currencyWithSign'), array('is_safe' => array('html')))
+            new Twig_SimpleFilter('currency_with_sign', array($this, 'currencyWithSign'), array('is_safe' => array('html'))),
+            new Twig_SimpleFilter('is_a', array($this, 'isA'), array('is_safe' => array('html'))),
         );
     }
 
@@ -47,6 +48,48 @@ class TimeExtension extends Twig_Extension {
     }
     function currencyWithSign($value, $iso=null) {
         return Currency::formatWithSign($value, $iso);
+    }
+
+    function isA($value, $type) {
+        switch (strtolower($type)) {
+            case 'array':
+                return is_array($value);
+                break;
+
+            case 'boolean':
+            case 'bool':
+                return is_bool($value);
+                break;
+
+            case 'string':
+                return is_string($value);
+                break;
+
+            case 'float':
+            case 'double':
+            case 'real':
+                return is_float($value);
+                break;
+
+            case 'integer':
+            case 'int':
+            case 'long':
+                return is_int($value);
+                break;
+
+            case 'null':
+                return is_null($value);
+                break;
+
+            case 'numeric':
+            case 'number':
+                return is_numeric($value);
+                break;
+
+            default:
+                return is_a($value, $type);
+                break;
+        }
     }
 
     /*
